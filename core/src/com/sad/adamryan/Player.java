@@ -19,7 +19,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
-
+A git test
 public class Player {
 	public Texture playerTexture;
 	public GameObject gameObject = new GameObject();
