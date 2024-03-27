@@ -51,7 +51,9 @@ public class Player {
 		this.MovePlayer(xVel, yVel);
 		if (gameObject.CheckCollisions(CollisionObjects) != 0)
 		{
+			
 			int dir = gameObject.CheckCollisions(CollisionObjects);
+			System.out.println(dir);
 			this.MovePlayer(-xVel, -yVel);
 			Vector2 move;
 			if (dir == 1 || dir == 2) {

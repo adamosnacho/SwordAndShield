@@ -31,6 +31,7 @@ public class SAD extends ApplicationAdapter {
 	public float PlayerSpeed = 5f;
 	public float MaxPlayerSpeed = 15f;
 	public float PlayerFriction = 0.2f;
+	Terrain t = new Terrain();
 	@Override
 	public void create () {
 	      rect = new Texture(Gdx.files.internal("Grass.jpeg"));
@@ -44,7 +45,9 @@ public class SAD extends ApplicationAdapter {
 	      player = new Player();
 	      player.CreatePlayer(100, 0);
 	      Objects.add(player.gameObject);
-	      
+	      t.create(0, 0);
+	      Objects.add(t.gameObject);
+	      System.out.println(t.gameObject.height);
 	}
 
 	@Override
@@ -86,6 +89,7 @@ public class SAD extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		player.DrawPlayer(batch);
+		t.DrawTerrain(batch);
 		batch.draw(rect, 0, 0 - rect.getHeight(),rect.getWidth() * 100,rect.getHeight());
 		batch.end();
 	}
