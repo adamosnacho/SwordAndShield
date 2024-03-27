@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>SwordAndShield-Sword and Shield-desktop</name>
+	<name>Sword and Shield-desktop</name>
 	<comment>Project SwordAndShield-Sword and Shield-desktop created by Buildship.</comment>
 	<projects>
 	</projects>
@@ -24,7 +24,7 @@
 		<link>
 			<name>assets</name>
 			<type>2</type>
-			<location>/Volumes/Games/Java Projects/SwordAndShield/assets</location>
+			<location>C:/Users/Віталій/eclipse-workspace/SwordAndShield/assets</location>
 		</link>
 	</linkedResources>
 </projectDescription>
