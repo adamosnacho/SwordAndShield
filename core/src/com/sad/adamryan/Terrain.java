@@ -13,16 +13,16 @@ public class Terrain {
 	public Body body;
 	private void createFloor (World world) {
 		BodyDef bdef = new BodyDef();
-		 bdef.fixedRotation = true;
-		 bdef.type = BodyDef.BodyType.StaticBody;
-		 bdef.position.set(0, -100);
-		 PolygonShape shape = new PolygonShape();
-		 shape.setAsBox(10000 / SAD.PIXEL_PER_METER / 2, 100 / SAD.PIXEL_PER_METER / 2);
-		 FixtureDef fixtureDef = new FixtureDef();
-		 fixtureDef.shape = shape;
-		 fixtureDef.density = 0.5f;
-		 body = world.createBody(bdef);
-		 body.createFixture(fixtureDef).setUserData(this);
+		bdef.fixedRotation = true;
+		bdef.type = BodyDef.BodyType.StaticBody;
+		bdef.position.set(0, -100);
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(10000, 100);
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = shape;
+		fixtureDef.density = 1f;
+		body = world.createBody(bdef);
+		body.createFixture(fixtureDef).setUserData(this);
 	}
 }
 
