@@ -1,21 +1,28 @@
 package com.sad.adamryan;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class Terrain {
-	public GameObject gameObject;
-	public float x, y;
-	Texture t;
-	public void create(float xPos, float yPos) {
-		t = new Texture(Gdx.files.internal("Grass.jpeg"));
-		gameObject = new GameObject();
-		gameObject.setSize(100, 100);
-		gameObject.setPos(xPos, yPos);
+	public Terrain (World world) {
+		createFloor(world);
 	}
-	public void DrawTerrain(SpriteBatch batch)
-	{
-		batch.draw(t, x, y, 100, 100);
+	public Body body;
+	private void createFloor (World world) {
+		BodyDef bdef = new BodyDef();
+		 bdef.fixedRotation = true;
+		 bdef.type = BodyDef.BodyType.StaticBody;
+		 bdef.position.set(0, -100);
+		 PolygonShape shape = new PolygonShape();
+		 shape.setAsBox(10000 / SAD.PIXEL_PER_METER / 2, 100 / SAD.PIXEL_PER_METER / 2);
+		 FixtureDef fixtureDef = new FixtureDef();
+		 fixtureDef.shape = shape;
+		 fixtureDef.density = 0.5f;
+		 body = world.createBody(bdef);
+		 body.createFixture(fixtureDef).setUserData(this);
 	}
 }
+

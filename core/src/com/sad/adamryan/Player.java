@@ -1,97 +1,39 @@
 package com.sad.adamryan;
-import java.io.Console;
-import java.util.Iterator;
-import java.util.List;
 
-import com.sad.adamryan.GameObject;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+
 public class Player {
-	public Texture playerTexture;
-	public GameObject gameObject = new GameObject();
-	public float andreigejj;
-	public float x;
-	public float y;
-	public float xVel;
-	public float yVel;
-	public float Scale = 0.2f;
-	public void CreatePlayer (float xPos, float yPos) {
-		playerTexture = new Texture(Gdx.files.internal("person.png"));
-		gameObject.setPos(xPos, yPos);
-		gameObject.setSize(playerTexture.getWidth() * Scale, playerTexture.getHeight() * Scale);
-		x = xPos;
-		y = yPos;
-	}
-	public void MovePlayer (float xMove, float yMove) {
-		x += xMove;
-		y += yMove;
-		gameObject.x = x;
-		gameObject.y = y;
-	}
-	public void SetPlayerPosition (float xPos, float yPos) {
-		x = xPos;
-		y = yPos;
-		gameObject.x = x;
-		gameObject.y = y;
-	}
-	public Boolean ApplyVelocity (List<GameObject> CollisionObjects) {
-		this.MovePlayer(xVel, yVel);
-		if (gameObject.CheckCollisions(CollisionObjects) != 0)
-		{
-			
-			int dir = gameObject.CheckCollisions(CollisionObjects);
-			System.out.println(dir);
-			this.MovePlayer(-xVel, -yVel);
-			Vector2 move;
-			if (dir == 1 || dir == 2) {
-				
-				if (yVel > 0) {
-					move = new Vector2(0,0.1f);
-				}
-				else
-				{
-					move = new Vector2(0,-0.1f);
-				}
-				yVel = 0;
-				
-			}
-			else {
-				if (xVel > 0) {
-					move = new Vector2(0.1f,0);
-				}
-				else
-				{
-					move = new Vector2(-0.1f,0);
-				}
-			}
-			for (int i = 0; i < 1000; i++)
-			{
-				this.MovePlayer(move.x, move.y);
-				if (gameObject.CheckCollisions(CollisionObjects) != 0)
-				{
-					this.MovePlayer(-move.x, -move.y);
-				}
-			}
-			return false;
-		}
-		
-		return true;
-	}
-	
-	public void DrawPlayer (SpriteBatch batch) {
-		batch.draw(playerTexture, x, y, playerTexture.getWidth() * Scale, playerTexture.getHeight() * Scale);
-	}
+	 private static final int BOX_SIZE = 32;
+	 private static final float PLAYER_DENSITY = 1.0f;
+	 public static final float JUMP_FORCE = 250f;
+	 public static final float RUN_FORCE = 5f;
+	 public static final String PLAYER_IMG_PATH = "cat.png";
+	 private static final float PLAYER_START_X = 8f;
+	 private static final float PLAYER_START_Y = 18f;
+	 private Body body;
+ 
+	 public Player(World world) {
+		  createBoxBody(world, PLAYER_START_X, PLAYER_START_Y);
+	 }
+	 
+	 private void createBoxBody(World world, float x, float y) {
+		  BodyDef bdef = new BodyDef();
+		  bdef.fixedRotation = true;
+		  bdef.type = BodyDef.BodyType.DynamicBody;
+		  bdef.position.set(x, y);
+		  PolygonShape shape = new PolygonShape();
+		  shape.setAsBox(BOX_SIZE / SAD.PIXEL_PER_METER / 2, BOX_SIZE / SAD.PIXEL_PER_METER / 2);
+		  FixtureDef fixtureDef = new FixtureDef();
+		  fixtureDef.shape = shape;
+		  fixtureDef.density = PLAYER_DENSITY;
+		  body = world.createBody(bdef);
+		  body.createFixture(fixtureDef).setUserData(this);
+	 }
+	 public Body getBody() {
+	 	return body;
+	 }
 }
