@@ -19,7 +19,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
-A git test
 public class Player {
 	public Texture playerTexture;
 	public GameObject gameObject = new GameObject();
@@ -49,23 +48,38 @@ public class Player {
 	}
 	public Boolean ApplyVelocity (List<GameObject> CollisionObjects) {
 		this.MovePlayer(xVel, yVel);
-		if (this.CheckCollisions(CollisionObjects))
+		if (gameObject.CheckCollisions(CollisionObjects) != 0)
 		{
+			int dir = gameObject.CheckCollisions(CollisionObjects);
 			this.MovePlayer(-xVel, -yVel);
-			yVel = 0;
+			Vector2 move;
+			if (dir == 1 || dir == 2) {
+				
+				if (yVel > 0) {
+					move = new Vector2(0,0.1f);
+				}
+				else
+				{
+					move = new Vector2(0,-0.1f);
+				}
+				yVel = 0;
+				
+			}
+			else {
+				if (xVel > 0) {
+					move = new Vector2(0.1f,0);
+				}
+				else
+				{
+					move = new Vector2(-0.1f,0);
+				}
+			}
 			for (int i = 0; i < 1000; i++)
 			{
-				if (xVel > 0) this.MovePlayer(0.1f,0);
-				if (xVel < 0) this.MovePlayer(-0.1f,0);
-				if (yVel > 0) this.MovePlayer(0,0.1f);
-				if (yVel < 0) this.MovePlayer(0,-0.1f);
-				if(this.CheckCollisions(CollisionObjects))
+				this.MovePlayer(move.x, move.y);
+				if (gameObject.CheckCollisions(CollisionObjects) != 0)
 				{
-					if (xVel > 0) this.MovePlayer(-0.1f,0);
-					if (xVel < 0) this.MovePlayer(0.1f,0);
-					if (yVel > 0) this.MovePlayer(0,-0.1f);
-					if (yVel < 0) this.MovePlayer(0,0.1f);
-					break;
+					this.MovePlayer(-move.x, -move.y);
 				}
 			}
 			return false;
@@ -73,40 +87,7 @@ public class Player {
 		
 		return true;
 	}
-	public Boolean CheckCollisions (List<GameObject> CollisionObjects) {
-		Boolean colliding = false;
-		Vector2 C1, C2, C3, C4;
-		C1 = new Vector2(gameObject.x, gameObject.y);
-		C2 = new Vector2(gameObject.x + gameObject.width, gameObject.y);
-		C3 = new Vector2(gameObject.x + gameObject.width, gameObject.y + gameObject.height);
-		C4 = new Vector2(gameObject.x, gameObject.y + gameObject.height);
-		
-		for (int i = 0; i < CollisionObjects.size(); i++) {
-			
-			if (C1.x < CollisionObjects.get(i).x + CollisionObjects.get(i).width && C1.x > CollisionObjects.get(i).x) {
-				if (C1.y >= CollisionObjects.get(i).y && C1.y <= CollisionObjects.get(i).y + CollisionObjects.get(i).height) {
-					colliding = true;
-				}
-			}
-			if (C2.x < CollisionObjects.get(i).x + CollisionObjects.get(i).width && C2.x > CollisionObjects.get(i).x) {
-				if (C2.y >= CollisionObjects.get(i).y && C2.y < CollisionObjects.get(i).y + CollisionObjects.get(i).height) {
-					colliding = true;
-				}
-			}
-			if (C3.x < CollisionObjects.get(i).x + CollisionObjects.get(i).width && C3.x > CollisionObjects.get(i).x) {
-				if (C3.y >= CollisionObjects.get(i).y && C3.y < CollisionObjects.get(i).y + CollisionObjects.get(i).height) {
-					colliding = true;
-				}
-			}
-			if (C4.x < CollisionObjects.get(i).x + CollisionObjects.get(i).width && C4.x > CollisionObjects.get(i).x) {
-				if (C4.y >= CollisionObjects.get(i).y && C4.y < CollisionObjects.get(i).y + CollisionObjects.get(i).height) {
-					colliding = true;
-				}
-			}
-			
-		}
-		return colliding;
-	}
+	
 	public void DrawPlayer (SpriteBatch batch) {
 		batch.draw(playerTexture, x, y, playerTexture.getWidth() * Scale, playerTexture.getHeight() * Scale);
 	}
