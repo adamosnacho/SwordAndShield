@@ -29,7 +29,7 @@ public class SAD extends ApplicationAdapter {
 	public List<GameObject> Objects = new ArrayList<GameObject>();
 	GameObject rectObject = new GameObject();
 	public float PlayerSpeed = 5f;
-	public float MaxPlayerSpeed = 20f;
+	public float MaxPlayerSpeed = 15f;
 	public float PlayerFriction = 0.2f;
 	@Override
 	public void create () {
