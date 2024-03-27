@@ -25,7 +25,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class LevelGenerator {
 	Texture Level1;
 	public void CreateLevel1() {
+		Level1 = new Texture(Gdx.files.internal("Levels/Level1.png"));
 		Pixmap pix = Level1.getTextureData().consumePixmap();
-		pix.getPixels().
+		pix.getPixels();
 	}
 }
