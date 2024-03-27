@@ -22,7 +22,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class Player {
 	public Texture playerTexture;
 	public GameObject gameObject = new GameObject();
-	public float f;
 	public float x;
 	public float y;
 	public float xVel;
